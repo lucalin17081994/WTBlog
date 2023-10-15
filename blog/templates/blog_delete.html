@@ -1,9 +1,9 @@
 {% block content %}
   <h2>Delete Object</h2>
-  <p>Are you sure you want to delete "{{ object.name }}"? <!-- Replace with the actual field name --></p>
+  <p>Are you sure you want to delete your post "{{ object.title }}"? <!-- Replace with the actual field name --></p>
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes, delete</button>
-    <a href="{% url 'read' %}" class="btn btn-secondary">Cancel</a>  <!-- Adjust 'read' with the actual URL name where the object list is displayed -->
+    <a href="{% url 'read_class' %}" class="btn btn-secondary">Cancel</a>  <!-- Adjust 'read' with the actual URL name where the object list is displayed -->
   </form>
 {% endblock %}

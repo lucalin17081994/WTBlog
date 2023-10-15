@@ -23,7 +23,7 @@ class BlogPostUpdateView(UpdateView):
     model = BlogPost
     fields = ['username', 'title', 'content']  # add your model fields here
     template_name = 'blog_update.html'
-    success_url = '/blog_update/'  # Redirect to a success page upon successful update
+    success_url = '/blog_read/'  # Redirect to a success page upon successful update
 
 
 from django.views.generic.edit import DeleteView
@@ -32,5 +32,5 @@ from django.urls import reverse_lazy
 class BlogPostDeleteView(DeleteView):
     model = BlogPost
     template_name = 'blog_delete.html'
-    success_url = reverse_lazy('blog_read')  # Redirect to the list view upon successful deletion
+    success_url = reverse_lazy('read_class')  # Redirect to the list view upon successful deletion
 
