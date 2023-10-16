@@ -1,0 +1,24 @@
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- Bootstrap JS and Popper JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% block content %}
+  <h2>Object List</h2>
+  <ul>
+    {% for object in object_list %}
+      <li>
+        {{ object.username }}  <!-- Replace with the actual field name -->
+        {{ object.title }}  <!-- Replace with the actual field name -->
+        {{ object.content }}  <!-- Replace with the actual field name -->
+        <a href="{% url 'update_class' object.id %}">Edit</a> |
+        <a href="{% url 'delete_class' object.id %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No objects available.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
