@@ -1,0 +1,10 @@
+.banner-img {
+    object-fit: cover;
+    object-position: top;
+    height: 400px; /* Or your preferred height */
+    width: 100%;
+}
+
+.card-img-overlay {
+    /* Optional: Add custom styles for the overlay text, e.g., shadows, color, etc. */
+}
