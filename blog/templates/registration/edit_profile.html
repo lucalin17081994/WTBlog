@@ -1,16 +1,14 @@
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-<!-- Bootstrap JS and Popper JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% extends '../base.html' %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    <button type="submit">Save changes</button>
-</form>
+    {% if user.profile.profile_picture %}
+        <img src="{{ user.profile.profile_picture.url }}" class="rounded-circle" alt="Profile Picture" width="100px" height="100%">
+    {% endif %}
+    <form method="post", enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>{{user.username}}</h4>
+        {{ user_form.as_p }}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
 {% endblock %}

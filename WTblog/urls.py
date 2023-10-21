@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from blog.views import BlogPostCreateView, BlogPostListView, BlogPostDetailView, BlogPostUpdateView, BlogPostDeleteView, HomePageView, SignUp, ProfileUpdateView
+from blog.views import BlogPostCreateView, BlogPostListView, BlogPostDetailView, BlogPostUpdateView, BlogPostDeleteView, HomePageView, SignUp, ProfileUpdateView, UserLoginView, CustomLogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,6 +25,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # new
     path('signup/', SignUp.as_view(), name='signup'),
     path('edit_profile/', ProfileUpdateView.as_view(), name='edit_profile'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
 
 
     # path('blog_create/', BlogPostCreateView, name='create'),  # Function-based view example
@@ -41,3 +43,5 @@ urlpatterns = [
     
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

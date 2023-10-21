@@ -1,7 +1,7 @@
 .banner-img {
     object-fit: cover;
     object-position: top;
-    height: 400px; /* Or your preferred height */
+    height: 100%; /* Or your preferred height */
     width: 100%;
 }
 

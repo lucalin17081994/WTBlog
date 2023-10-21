@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
-from .models import BlogPost
+from .models import BlogPost, Profile
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
@@ -13,6 +13,15 @@ from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import CustomUserCreationForm
+from .forms import UserForm, ProfileForm
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LogoutView
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+
 
 
 
@@ -24,6 +33,7 @@ class HomePageView(ListView):
     #     context['posts'] = BlogPost.objects.all()[:10]  # Adjust the query as needed
     #     return context
     model = BlogPost
+    
     template_name = 'home/index.html'  
     context_object_name = 'posts'
     paginate_by = 3
@@ -32,26 +42,16 @@ class HomePageView(ListView):
         
         return BlogPost.objects.all()
 
-
-
 class SignUp(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('edit_profile')
     template_name = 'registration/signup.html'
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.views.generic.edit import UpdateView
-from .models import Profile
-from .forms import UserForm, ProfileForm
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = 'registration/edit_profile.html'
-    success_url = reverse_lazy('edit_profile')  # change 'profile' to the name of the URL where you want to redirect after successful form submission
+    success_url = reverse_lazy('homepage')  # change 'profile' to the name of the URL where you want to redirect after successful form submission
 
     def get_object(self, queryset=None):
         return self.request.user.profile
@@ -72,6 +72,21 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
             user_form.save()
 
         return super(ProfileUpdateView, self).post(request, *args, **kwargs)
+class UserLoginView(LoginView):
+    template_name = 'registration/login.html'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('homepage')
+
+
+
+class CustomLogoutView(LogoutView):
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        messages.success(request, "Successfully logged out")
+        return redirect('homepage')  # Redirect to homepage
 
 
 # class MyProtectedView(LoginRequiredMixin, TemplateView):
@@ -83,28 +98,28 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 class BlogPostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     fields = ['username', 'title', 'content']  # add your model fields here
-    template_name = 'blog_create.html'
+    template_name = 'blog/blog_create.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     success_url = '/'  # Redirect to a success page upon successful creation
 class BlogPostListView(LoginRequiredMixin, ListView):
     model = BlogPost
-    template_name = 'blog_read_listview.html'
+    template_name = 'blog/blog_read_listview.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     context_object_name = 'objects'
 class BlogPostDetailView(LoginRequiredMixin, DetailView):
     model = BlogPost
-    template_name = 'blog_read.html'
+    template_name = 'blog/blog_read.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     context_object_name = 'post'  # You might want to change this to something like 'post' for clarity
 class BlogPostUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogPost
     fields = ['username', 'title', 'content']  # add your model fields here
-    template_name = 'blog_update.html'
+    template_name = 'blog/blog_update.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     success_url = '/'  # Redirect to a success page upon successful update
 class BlogPostDeleteView(LoginRequiredMixin, DeleteView):
     model = BlogPost
-    template_name = 'blog_delete.html'
+    template_name = 'blog/blog_delete.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     success_url = reverse_lazy('read_class')  # Redirect to the list view upon successful deletion
 

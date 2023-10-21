@@ -1,0 +1,11 @@
+{% extends '../base.html' %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.username }}</p>
+    <p>{{ post.content }}</p>
+    <!-- Add other post attributes as needed -->
+    <!-- Button to Update Page -->
+    <a href="{% url 'update_class' post.pk %}" class="btn btn-primary">Update Post</a>
+
+{% endblock %}
