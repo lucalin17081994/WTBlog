@@ -97,10 +97,15 @@ class CustomLogoutView(LogoutView):
 # CRUD for posts/blogs
 class BlogPostCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
-    fields = ['username', 'title', 'content']  # add your model fields here
+    fields = ['title', 'content']  # Add your model fields here
     template_name = 'blog/blog_create.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
-    success_url = '/'  # Redirect to a success page upon successful creation
+    success_url = reverse_lazy('homepage')  # Use reverse_lazy instead of a hardcoded URL
+
+    def form_valid(self, form):
+        # Assign the logged-in user's profile to the blog post before saving it
+        form.instance.profile = self.request.user.profile  # Adjust this as per your user-profile association
+        return super().form_valid(form)
 class BlogPostListView(LoginRequiredMixin, ListView):
     model = BlogPost
     template_name = 'blog/blog_read_listview.html'
@@ -113,7 +118,7 @@ class BlogPostDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'post'  # You might want to change this to something like 'post' for clarity
 class BlogPostUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogPost
-    fields = ['username', 'title', 'content']  # add your model fields here
+    fields = ['title', 'content']  # add your model fields here
     template_name = 'blog/blog_update.html'
     login_url = 'login'  # Redirect to this URL if the user is not authenticated
     success_url = '/'  # Redirect to a success page upon successful update

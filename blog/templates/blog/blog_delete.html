@@ -6,6 +6,6 @@
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Yes, delete</button>
-    <a href="{% url 'read_class' %}" class="btn btn-secondary">Cancel</a>  <!-- Adjust 'read' with the actual URL name where the object list is displayed -->
+    <a href="{% url 'homepage' %}" class="btn btn-secondary">Cancel</a>  <!-- Adjust 'read' with the actual URL name where the object list is displayed -->
   </form>
 {% endblock %}
