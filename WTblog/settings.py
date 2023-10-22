@@ -25,10 +25,16 @@ SECRET_KEY = 'django-insecure-v6$o1ne!3(&=fn8huy5ub8z!)1)93t0dhlt7*rw#ww5j$9thrn
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 if not DEBUG:  # Or a more sophisticated way to check if it is production
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://wtblog.azurewebsites.net',
+    # add any other domains that should be trusted
+]
 
 ALLOWED_HOSTS = ['localhost', 'wtblog.azurewebsites.net', '127.0.0.1']
 
