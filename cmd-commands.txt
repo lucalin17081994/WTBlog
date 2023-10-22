@@ -1,0 +1,2 @@
+# generate uml with graph_models (django-extensions) and pydotplus
+python manage.py graph_models -a -g -o myapp_models.png myapp
